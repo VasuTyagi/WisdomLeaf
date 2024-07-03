@@ -1,19 +1,15 @@
 import UIKit
 
 // MARK: - SplashScreenViewController
-
 class SplashScreenViewController: UIViewController {
-
-    // MARK: - Properties
     
+    // MARK: - Properties
     private let viewModel = SplashScreenViewModel()
     
     // MARK: - @IBOutlets
-    
     @IBOutlet weak var splashScreenImageView: UIImageView!
     
     // MARK: - Life Cycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,8 +24,8 @@ class SplashScreenViewController: UIViewController {
     }
     
     // MARK: - Methods
-    
     private func setupView() {
+        self.view.backgroundColor = .white
         splashScreenImageView.image = UIImage(named: "wisdomLeafLogo")
     }
     
@@ -41,7 +37,7 @@ class SplashScreenViewController: UIViewController {
     
     private func showInitialViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let initialViewController = storyboard.instantiateViewController(withIdentifier: "InitialViewController") 
+        let initialViewController = storyboard.instantiateViewController(withIdentifier: "InitialViewController")
         initialViewController.modalPresentationStyle = .fullScreen
         initialViewController.modalTransitionStyle = .flipHorizontal
         self.present(initialViewController, animated: true, completion: nil)
