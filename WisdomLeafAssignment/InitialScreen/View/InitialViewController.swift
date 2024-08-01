@@ -2,11 +2,7 @@ import UIKit
 
 // MARK: - InitialViewController
 class InitialViewController: UIViewController {
-    
-    // MARK: - Properties
     private let viewModel = InitialScreenViewModel()
-    
-    // MARK: - Outlets
     @IBOutlet weak var movieCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
     
@@ -14,7 +10,26 @@ class InitialViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        self.setUpUI()
         self.viewModel.delegate = self
+        setupViewModel()
+    }
+    
+    // MARK: - Setup Methods
+    private func setupTableView() {
+        self.movieCollectionView.dataSource = self
+        self.movieCollectionView.delegate = self
+        self.movieCollectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "MovieCollectionViewCell")
+    }
+    
+    private func setUpUI() {
+        if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField {
+            searchTextField.backgroundColor = .darkGray
+            searchTextField.textColor = .white
+        }
+    }
+    
+    private func setupViewModel() {
         viewModel.fetchPhotos { response in
             switch response {
             case .success(let data) :
@@ -27,67 +42,57 @@ class InitialViewController: UIViewController {
             }
         }
     }
-    
-    // MARK: - Setup Methods
-    private func setupTableView() {
-        self.movieCollectionView.dataSource = self
-        self.movieCollectionView.delegate = self
-        self.movieCollectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "MovieCollectionViewCell")
-    }
 }
 
-// MARK: - UITableViewDataSource
-//extension InitialViewController: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return viewModel.movie.count
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as? MovieTableViewCell else {
-//            return UITableViewCell()
-//        }
-//        
-//        let movie = viewModel.movie[indexPath.row]
-//        cell.configure(movie: movie)
-//        return cell
-//    }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-//}
+// MARK: - COLLECTIONVIEW DATASOURCE AND DELEGATE METHODS
 
-// MARK: - UITableViewDelegate
-//extension InitialViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let detailMovie = storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController else { return }
-//        let vm = viewModel.movie[indexPath.row]
-//        self.navigationController?.pushViewController(detailMovie, animated: true)
-//    }
-//}
-extension InitialViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension InitialViewController : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width - 32, height: 250)
+        return CGSize(width: UIScreen.main.bounds.width - 32, height: 450)
     }
-    
 }
 
-extension InitialViewController: UICollectionViewDataSource {
+extension InitialViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.movie.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCollectionViewCell", for: indexPath) as? MovieCollectionViewCell else {
-                    return UICollectionViewCell()
-                }
-                let movie = viewModel.movie[indexPath.row]
-                cell.configure(movie: movie)
-                return cell
+            return UICollectionViewCell()
+        }
+        var movie = viewModel.movie[indexPath.item]
+        if viewModel.favIds.contains(movie.imdbID ?? "") {
+            movie.isFavorite = true
+        }
+        cell.configure(movie: movie)
+        cell.favoriteButton.tag = indexPath.item
+        cell.callBack = viewModel.performFavoriteButton
+        if let imageData = movie.movieImage {
+            cell.moviePoster.image = imageData
+        } else {
+            self.viewModel.fetchImage(for: indexPath.row) { [
+                weak cell] image
+                in DispatchQueue
+                    .main.async {
+                        cell?.moviePoster?.image = image
+                        cell?.setNeedsLayout()
+                    }
+            }
+        }
+        return cell
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let detailMovie = storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController else { return }
+        let vm = viewModel.movie[indexPath.row]
+        detailMovie.movieDetail = vm
+        self.navigationController?.pushViewController(detailMovie, animated: true)
+    }
 }
+
+// MARK: - Delegation Pattern For Reload
 
 extension InitialViewController: initialViewDelegate {
     func reloadTableView() {
@@ -95,6 +100,4 @@ extension InitialViewController: initialViewDelegate {
             self.movieCollectionView.reloadData()
         }
     }
-    
-    
 }

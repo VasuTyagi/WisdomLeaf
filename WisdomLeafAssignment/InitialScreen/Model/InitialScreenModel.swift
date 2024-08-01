@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 struct Movie: Codable {
     let title, year, rated, released: String?
@@ -10,6 +11,8 @@ struct Movie: Codable {
     let metascore, imdbRating, imdbVotes, imdbID: String?
     let type, dvd, boxOffice, production: String?
     let website, response: String?
+    var movieImage: UIImage? = nil
+    var isFavorite: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case title = "Title"

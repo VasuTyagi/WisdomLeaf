@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tK9-au-81T">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -25,20 +25,21 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemRedColor"/>
                         <constraints>
                             <constraint firstItem="NsZ-qX-TIF" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="4VF-MJ-HlE"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NsZ-qX-TIF" secondAttribute="trailing" constant="50" id="fmk-Y9-nwe"/>
                             <constraint firstItem="NsZ-qX-TIF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="gHs-Y3-bZm"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="kGk-5Z-MAb"/>
                     <connections>
                         <outlet property="splashScreenImageView" destination="NsZ-qX-TIF" id="VKC-5k-OSF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="58" y="-2"/>
+            <point key="canvasLocation" x="2767" y="-6"/>
         </scene>
         <!--Initial View Controller-->
         <scene sceneID="Ghy-0T-jc1">
@@ -48,16 +49,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ela-YW-uUA">
-                                <rect key="frame" x="0.0" y="89" width="393" height="56"/>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="" translatesAutoresizingMaskIntoConstraints="NO" id="ela-YW-uUA">
+                                <rect key="frame" x="0.0" y="83" width="393" height="56"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="tF3-qE-MeC" id="kOI-z1-xOy"/>
                                 </connections>
                             </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="w83-kv-K1z">
-                                <rect key="frame" x="0.0" y="145" width="393" height="673"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <rect key="frame" x="0.0" y="159" width="393" height="659"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ekG-ML-SCy">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -67,28 +69,28 @@
                                 <cells/>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movies" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q1U-C5-gXq">
-                                <rect key="frame" x="16" y="59" width="361" height="30"/>
+                                <rect key="frame" x="16" y="59" width="361" height="24"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="80n-9j-OBJ"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ela-YW-uUA" firstAttribute="top" secondItem="Q1U-C5-gXq" secondAttribute="bottom" id="3NG-cn-Lh9"/>
                             <constraint firstItem="80n-9j-OBJ" firstAttribute="bottom" secondItem="w83-kv-K1z" secondAttribute="bottom" id="43F-BL-hCs"/>
                             <constraint firstItem="Q1U-C5-gXq" firstAttribute="top" secondItem="80n-9j-OBJ" secondAttribute="top" id="75v-xK-dv6"/>
-                            <constraint firstItem="ela-YW-uUA" firstAttribute="top" secondItem="80n-9j-OBJ" secondAttribute="top" constant="30" id="PlK-vJ-qq9"/>
                             <constraint firstItem="w83-kv-K1z" firstAttribute="leading" secondItem="80n-9j-OBJ" secondAttribute="leading" id="R33-iX-ByZ"/>
-                            <constraint firstItem="w83-kv-K1z" firstAttribute="top" secondItem="ela-YW-uUA" secondAttribute="bottom" id="S6n-yT-heG"/>
+                            <constraint firstItem="w83-kv-K1z" firstAttribute="top" secondItem="ela-YW-uUA" secondAttribute="bottom" constant="20" id="S6n-yT-heG"/>
                             <constraint firstItem="80n-9j-OBJ" firstAttribute="trailing" secondItem="Q1U-C5-gXq" secondAttribute="trailing" constant="16" id="YTb-l0-b5C"/>
                             <constraint firstItem="ela-YW-uUA" firstAttribute="leading" secondItem="80n-9j-OBJ" secondAttribute="leading" id="aIs-1T-Y95"/>
+                            <constraint firstItem="ela-YW-uUA" firstAttribute="top" secondItem="Q1U-C5-gXq" secondAttribute="bottom" id="eUs-Ul-4Ir"/>
                             <constraint firstItem="Q1U-C5-gXq" firstAttribute="leading" secondItem="80n-9j-OBJ" secondAttribute="leading" constant="16" id="mUc-kR-qIM"/>
                             <constraint firstItem="80n-9j-OBJ" firstAttribute="trailing" secondItem="w83-kv-K1z" secondAttribute="trailing" id="onH-Z3-nnD"/>
                             <constraint firstAttribute="trailing" secondItem="ela-YW-uUA" secondAttribute="trailing" id="w1G-pC-shK"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="gnt-Dl-flN"/>
                     <connections>
                         <outlet property="movieCollectionView" destination="w83-kv-K1z" id="JRn-AG-Cea"/>
                         <outlet property="searchBar" destination="ela-YW-uUA" id="Y01-Vq-FdT"/>
@@ -96,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aFg-Xs-kvO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="799" y="-6"/>
+            <point key="canvasLocation" x="3577.8625954198474" y="-6.3380281690140849"/>
         </scene>
         <!--Movie Detail View Controller-->
         <scene sceneID="npG-ZQ-lQ3">
@@ -105,18 +107,52 @@
                     <view key="view" contentMode="scaleToFill" id="N1Z-aL-P50">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="p6D-uS-zQL">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="JNE-2S-1DN"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="p6D-uS-zQL" firstAttribute="top" secondItem="JNE-2S-1DN" secondAttribute="top" id="2E9-4O-Cav"/>
+                            <constraint firstItem="JNE-2S-1DN" firstAttribute="trailing" secondItem="p6D-uS-zQL" secondAttribute="trailing" id="OgF-va-eXJ"/>
+                            <constraint firstItem="p6D-uS-zQL" firstAttribute="leading" secondItem="JNE-2S-1DN" secondAttribute="leading" id="W3Q-E9-c3M"/>
+                            <constraint firstItem="JNE-2S-1DN" firstAttribute="bottom" secondItem="p6D-uS-zQL" secondAttribute="bottom" id="btk-Px-Kex"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="detailTableView" destination="p6D-uS-zQL" id="HLZ-Jc-07j"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yH6-l2-Wg3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1527" y="-6"/>
+            <point key="canvasLocation" x="4306.1068702290077" y="-6.3380281690140849"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="GRh-aD-uzq">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tK9-au-81T" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xwV-7H-EGA">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="aFE-Ui-0mv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d0G-em-bik" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1938" y="-6"/>
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

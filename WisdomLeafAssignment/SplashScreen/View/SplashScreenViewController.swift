@@ -38,9 +38,10 @@ class SplashScreenViewController: UIViewController {
     private func showInitialViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let initialViewController = storyboard.instantiateViewController(withIdentifier: "InitialViewController")
-        initialViewController.modalPresentationStyle = .fullScreen
-        initialViewController.modalTransitionStyle = .flipHorizontal
-        self.present(initialViewController, animated: true, completion: nil)
+        let navigationController = UINavigationController(rootViewController: initialViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        navigationController.modalTransitionStyle = .flipHorizontal
+        self.present(navigationController, animated: true, completion: nil)
     }
 }
 
