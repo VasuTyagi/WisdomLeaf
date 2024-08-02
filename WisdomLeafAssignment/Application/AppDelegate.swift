@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  WisdomLeafAssignment
-//
-//  Created by Shubham Baliyan on 28/06/24.
-//
-
 import UIKit
 
 @main

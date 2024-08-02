@@ -16,6 +16,11 @@ class InitialViewController: UIViewController {
         self.setupViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setUpUI()
+    }
+    
     // MARK: - Setup Methods
     private func setupTableView() {
         self.movieCollectionView.backgroundColor = .clear
@@ -25,7 +30,7 @@ class InitialViewController: UIViewController {
     }
     
     private func setUpUI() {
-        if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField {
+        if let searchTextField = self.searchBar.value(forKey: "searchField") as? UITextField {
             searchTextField.backgroundColor = .clear
             searchTextField.textColor = .white
         }
@@ -33,7 +38,7 @@ class InitialViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [
             .foregroundColor: UIColor.white,
             .font: UIFont.boldSystemFont(ofSize: 18)
-        ] 
+        ]
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = #colorLiteral(red: 0.09411764706, green: 0.09411764706, blue: 0.09411764706, alpha: 1)
@@ -41,7 +46,6 @@ class InitialViewController: UIViewController {
             .foregroundColor: UIColor.white,
             .font: UIFont.boldSystemFont(ofSize: 18)
         ]
-        
         if let navigationBar = self.navigationController?.navigationBar {
             navigationBar.scrollEdgeAppearance = appearance
             navigationBar.standardAppearance = appearance
@@ -80,10 +84,9 @@ class InitialViewController: UIViewController {
             }
         }
     }
-           
 }
 
-// MARK: - COLLECTIONVIEW DATASOURCE AND DELEGATE METHODS
+// MARK: - COLLECTIONVIEW DelegateFlowLayout
 
 extension InitialViewController : UICollectionViewDelegateFlowLayout {
     
@@ -91,6 +94,8 @@ extension InitialViewController : UICollectionViewDelegateFlowLayout {
         return CGSize(width: UIScreen.main.bounds.width - 32, height: 450)
     }
 }
+
+// MARK: - CollectionView Datasource and Dalegate
 
 extension InitialViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -102,12 +107,12 @@ extension InitialViewController: UICollectionViewDataSource, UICollectionViewDel
             return UICollectionViewCell()
         }
         var movie = viewModel.movie[indexPath.item]
-        if viewModel.favIds.contains(movie.imdbID ?? "") {
+        if self.viewModel.favIds.contains(movie.imdbID ?? "") {
             movie.isFavorite = true
         }
         cell.configure(movie: movie)
         cell.favoriteButton.tag = indexPath.item
-        cell.callBack = viewModel.performFavoriteButton
+        cell.callBack = self.viewModel.performFavoriteButton
         if let imageData = movie.movieImage {
             cell.moviePoster.image = imageData
         } else {
@@ -125,8 +130,8 @@ extension InitialViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let detailMovie = storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController else { return }
-        let vm = viewModel.movie[indexPath.row]
-        viewModel.getMovieDetail(omdbId: vm.imdbID) { res in
+        let vm = self.viewModel.movie[indexPath.row]
+        self.viewModel.getMovieDetail(omdbId: vm.imdbID) { res in
             switch res{
             case .success(let movieDetail):
                 DispatchQueue.main.async {
@@ -138,9 +143,6 @@ extension InitialViewController: UICollectionViewDataSource, UICollectionViewDel
                 break
             }
         }
-        // todo : api call
-//        detailMovie.movieDetail = vm
-       
     }
 }
 
@@ -154,6 +156,7 @@ extension InitialViewController: initialViewDelegate {
     }
 }
 
+// MARK: - SearchBar Delegate Methods
 
 extension InitialViewController : UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

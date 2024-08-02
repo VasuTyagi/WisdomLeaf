@@ -19,7 +19,7 @@ class InitialScreenViewModel {
     }
     
     // MARK: - Methods
-    func fetchMovies(url : String,completion: @escaping (Result<[Movie], Error>) -> Void) {
+    private func fetchMovies(url : String,completion: @escaping (Result<[Movie], Error>) -> Void) {
         let urlString = url
         guard let url = URL(string: urlString) else { return }
         
@@ -44,8 +44,9 @@ class InitialScreenViewModel {
         }.resume()
     }
     
+    // MARK: - Method for
     
-    func fetchMovie(url : String,completion: @escaping (Result<MovieDetail, Error>) -> Void) {
+    private func fetchMovie(url : String,completion: @escaping (Result<MovieDetail, Error>) -> Void) {
         let urlString = url
         guard let url = URL(string: urlString) else { return }
         
@@ -54,7 +55,6 @@ class InitialScreenViewModel {
                 print("Failed to fetch photos:", error)
                 return
             }
-            
             guard let data = data else {
                 return
             }
