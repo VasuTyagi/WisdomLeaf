@@ -13,8 +13,8 @@ class MovieDetailSecondTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
 
-    func configureCell(movieDetail: Movie?) {
-        if let year = movieDetail?.year, let runtime = movieDetail?.runtime {
+    func configureCell(movieDetail: MovieDetail?) {
+        if let year = movieDetail?.released, let runtime = movieDetail?.runtime {
             self.yearLabel.text = "\(year) • \(runtime)"
         }
         self.movieTitleLabel.text = movieDetail?.title

@@ -6,17 +6,19 @@ class InitialViewController: UIViewController {
     @IBOutlet weak var movieCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
     
+    
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
+        self.setupTableView()
         self.setUpUI()
         self.viewModel.delegate = self
-        setupViewModel()
+        self.setupViewModel()
     }
     
     // MARK: - Setup Methods
     private func setupTableView() {
+        self.movieCollectionView.backgroundColor = .clear
         self.movieCollectionView.dataSource = self
         self.movieCollectionView.delegate = self
         self.movieCollectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "MovieCollectionViewCell")
@@ -24,16 +26,35 @@ class InitialViewController: UIViewController {
     
     private func setUpUI() {
         if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField {
-            searchTextField.backgroundColor = .darkGray
+            searchTextField.backgroundColor = .clear
             searchTextField.textColor = .white
         }
+        self.title = "Movies"
+        self.navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont.boldSystemFont(ofSize: 18)
+        ] 
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = #colorLiteral(red: 0.09411764706, green: 0.09411764706, blue: 0.09411764706, alpha: 1)
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont.boldSystemFont(ofSize: 18)
+        ]
+        
+        if let navigationBar = self.navigationController?.navigationBar {
+            navigationBar.scrollEdgeAppearance = appearance
+            navigationBar.standardAppearance = appearance
+            navigationBar.tintColor = .white
+        }
+        self.searchBar.delegate = self
+        self.searchBar.showsCancelButton = true
     }
     
     private func setupViewModel() {
-        viewModel.fetchPhotos { response in
+        viewModel.fetchFilter(searchString: "Guard") { response in
             switch response {
             case .success(let data) :
-                print(data)
                 DispatchQueue.main.async {
                     self.movieCollectionView.reloadData()
                 }
@@ -42,6 +63,24 @@ class InitialViewController: UIViewController {
             }
         }
     }
+    
+    private func filterMovies(searchText: String) {
+        if searchText.isEmpty {
+            self.setupViewModel()
+            return
+        }
+        self.viewModel.fetchFilter(searchString: searchText) { response in
+            switch response {
+            case .success(let data) :
+                DispatchQueue.main.async {
+                    self.movieCollectionView.reloadData()
+                }
+            case .failure(let error) :
+                print(error)
+            }
+        }
+    }
+           
 }
 
 // MARK: - COLLECTIONVIEW DATASOURCE AND DELEGATE METHODS
@@ -87,8 +126,21 @@ extension InitialViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let detailMovie = storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController else { return }
         let vm = viewModel.movie[indexPath.row]
-        detailMovie.movieDetail = vm
-        self.navigationController?.pushViewController(detailMovie, animated: true)
+        viewModel.getMovieDetail(omdbId: vm.imdbID) { res in
+            switch res{
+            case .success(let movieDetail):
+                DispatchQueue.main.async {
+                    detailMovie.movieDetail = movieDetail
+                    detailMovie.movieDetail?.movieImage = vm.movieImage
+                    self.navigationController?.pushViewController(detailMovie, animated: true)
+                }
+            case .failure(_):
+                break
+            }
+        }
+        // todo : api call
+//        detailMovie.movieDetail = vm
+       
     }
 }
 
@@ -99,5 +151,20 @@ extension InitialViewController: initialViewDelegate {
         DispatchQueue.main.async {
             self.movieCollectionView.reloadData()
         }
+    }
+}
+
+
+extension InitialViewController : UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterMovies(searchText: searchText)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }

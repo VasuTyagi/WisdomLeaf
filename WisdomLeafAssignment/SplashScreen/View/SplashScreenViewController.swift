@@ -25,7 +25,7 @@ class SplashScreenViewController: UIViewController {
     
     // MARK: - Methods
     private func setupView() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .black
         splashScreenImageView.image = UIImage(named: "wisdomLeafLogo")
     }
     

@@ -13,7 +13,7 @@ class MovieDetailTableViewCell: UITableViewCell {
       
     }
     
-    func configureCell(movieDetails: Movie?) {
+    func configureCell(movieDetails: MovieDetail?) {
         self.selectionStyle = .none
         self.ratedBackgroundView.layer.cornerRadius = 8
         self.ratedBackgroundView.layer.borderColor = UIColor.darkGray.cgColor

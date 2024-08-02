@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-struct Movie: Codable {
+struct MovieDetail: Codable {
     let title, year, rated, released: String?
     let runtime, genre, director, writer: String?
     let actors, plot, language, country: String?
@@ -53,3 +53,37 @@ struct Rating: Codable {
 }
 
 
+
+
+// MARK: - Welcome
+struct Movie: Codable {
+    let search: [Search]
+    let totalResults, response: String
+
+    enum CodingKeys: String, CodingKey {
+        case search = "Search"
+        case totalResults
+        case response = "Response"
+    }
+}
+
+// MARK: - Search
+struct Search: Codable {
+    let title, year, imdbID: String
+    let type: TypeEnum
+    let poster: String?
+    var isFavorite: Bool = false
+    var movieImage: UIImage? = nil
+
+    enum CodingKeys: String, CodingKey {
+        case title = "Title"
+        case year = "Year"
+        case imdbID
+        case type = "Type"
+        case poster = "Poster"
+    }
+}
+
+enum TypeEnum: String, Codable {
+    case movie = "movie"
+}

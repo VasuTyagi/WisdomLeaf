@@ -3,7 +3,7 @@ import UIKit
 class MovieDetailViewController: UIViewController {
     @IBOutlet weak var detailTableView: UITableView!
     
-    var movieDetail: Movie?
+    var movieDetail: MovieDetail?
     
     override func viewDidLoad() {
         super.viewDidLoad()
