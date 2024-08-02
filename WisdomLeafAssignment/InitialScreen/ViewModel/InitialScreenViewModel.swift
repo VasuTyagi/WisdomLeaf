@@ -44,6 +44,7 @@ class InitialScreenViewModel {
         }.resume()
     }
     
+    
     func fetchMovie(url : String,completion: @escaping (Result<MovieDetail, Error>) -> Void) {
         let urlString = url
         guard let url = URL(string: urlString) else { return }
